@@ -92,12 +92,11 @@ func (h *HashRing) Get(key string) (string, bool) {
 	if len(h.nodes) == 0 {
 		return "", false
 	}
+
 	hash := h.hashFunc([]byte(key))
 	idx := sort.Search(len(h.nodes), func(i int) bool {
 		return h.nodes[i].hash >= hash
-	})
-	if idx == len(h.nodes) {
-		idx = 0
-	}
+	}) % len(h.nodes)
+
 	return h.nodes[idx].key, true
 }
