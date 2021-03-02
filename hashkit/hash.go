@@ -6,18 +6,31 @@ import (
 	"hash/fnv"
 )
 
-type HashFunc func([]byte) uint32
+type HashFunc32 func([]byte) uint32
+type HashFunc64 func([]byte) uint64
 
-func Murmur3(data []byte) uint32 {
+func Murmur32(data []byte) uint32 {
 	var ukLen = uint32(len(data))
 	var seed = 0xdeadbeef * ukLen
 	return murmur3.Sum32WithSeed(data, seed)
+}
+
+func Murmur64(data []byte) uint64 {
+	var ukLen = uint32(len(data))
+	var seed = 0xdeadbeef * ukLen
+	return murmur3.Sum64WithSeed(data, seed)
 }
 
 func Fnv32(data []byte) uint32 {
 	f := fnv.New32()
 	f.Write(data)
 	return f.Sum32()
+}
+
+func Fnv64(data []byte) uint64 {
+	f := fnv.New64()
+	f.Write(data)
+	return f.Sum64()
 }
 
 func Md5(key []byte) uint32 {

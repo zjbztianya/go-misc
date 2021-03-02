@@ -11,7 +11,7 @@ const (
 	minReplicas = 160
 )
 
-var defaultHash = hashkit.Murmur3
+var defaultHash = hashkit.Murmur32
 
 type node struct {
 	hash uint32
@@ -22,12 +22,12 @@ type HashRing struct {
 	mu       sync.RWMutex
 	nodes    []node
 	replicas int
-	hashFunc hashkit.HashFunc
+	hashFunc hashkit.HashFunc32
 }
 
 type HashRingOption func(*HashRing)
 
-func WithHashFunc(hash hashkit.HashFunc) HashRingOption {
+func WithHashFunc(hash hashkit.HashFunc32) HashRingOption {
 	return func(ring *HashRing) {
 		ring.hashFunc = hash
 	}
