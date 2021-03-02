@@ -18,18 +18,16 @@ type node struct {
 	key  string
 }
 
-type HashFunc func([]byte) uint32
-
 type HashRing struct {
 	mu       sync.RWMutex
 	nodes    []node
 	replicas int
-	hashFunc HashFunc
+	hashFunc hashkit.HashFunc
 }
 
 type HashRingOption func(*HashRing)
 
-func WithHashFunc(hash HashFunc) HashRingOption {
+func WithHashFunc(hash hashkit.HashFunc) HashRingOption {
 	return func(ring *HashRing) {
 		ring.hashFunc = hash
 	}
