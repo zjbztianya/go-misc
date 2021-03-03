@@ -45,7 +45,7 @@ func NewMaglev(nodes []string, numBuckets uint64, h1, h2 hashkit.HashFunc64) (*M
 }
 
 //generatePermutation guarantee permutation array to be a full permutation,proof as follows:
-//Suppose that permutation[] is not a full permutation of 0,1... ,M-1,
+//Suppose that permutation[] is not a full permutation of 0,1... ,m-1,
 //then there exists permutation[i] which is equal to permutation[j].
 //Then the following equations hold.
 //1.(offset + i * skip) % m == (offset + j * skip) % m

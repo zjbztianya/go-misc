@@ -1,11 +1,12 @@
 package consistenthash
 
 import (
-	"github.com/stretchr/testify/assert"
-	"github.com/zjbztianya/go-misc/hashkit"
 	"sort"
 	"strconv"
 	"testing"
+
+	"github.com/stretchr/testify/assert"
+	"github.com/zjbztianya/go-misc/hashkit"
 )
 
 var (
