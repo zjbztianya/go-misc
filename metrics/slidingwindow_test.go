@@ -16,7 +16,7 @@ func TestNewSlidingWindow(t *testing.T) {
 
 func TestSlidingWindowAdd(t *testing.T) {
 	size := 3
-	interval := time.Second
+	interval := 50 * time.Millisecond
 	r := NewSlidingWindow(size, interval)
 	listBuckets := func() []float64 {
 		buckets := make([]float64, 0)
@@ -28,15 +28,15 @@ func TestSlidingWindowAdd(t *testing.T) {
 	assert.Equal(t, []float64{0, 0, 0}, listBuckets())
 	r.Add(1)
 	assert.Equal(t, []float64{0, 0, 1}, listBuckets())
-	time.Sleep(time.Second)
+	time.Sleep(interval)
 	r.Add(2)
 	r.Add(3)
 	assert.Equal(t, []float64{0, 1, 5}, listBuckets())
-	time.Sleep(time.Second)
+	time.Sleep(interval)
 	r.Add(4)
 	r.Add(5)
 	assert.Equal(t, []float64{1, 5, 9}, listBuckets())
-	time.Sleep(time.Second)
+	time.Sleep(interval)
 	r.Add(6)
 	r.Add(7)
 	assert.Equal(t, []float64{5, 9, 13}, listBuckets())
@@ -70,7 +70,7 @@ func TestSlidingWindowBucketTimeBoundary(t *testing.T) {
 
 func TestSlidingWindowReduce(t *testing.T) {
 	size := 4
-	interval := time.Second
+	interval := 100 * time.Millisecond
 	r := NewSlidingWindow(size, interval)
 	for x := 0; x < size; x++ {
 		for i := 0; i <= x; i++ {
@@ -91,6 +91,7 @@ func BenchmarkSlidingWindowInc(b *testing.B) {
 	size := 3
 	interval := 100 * time.Millisecond
 	r := NewSlidingWindow(size, interval)
+
 	b.ResetTimer()
 	for i := 0; i < b.N; i++ {
 		r.Inc()
