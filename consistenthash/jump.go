@@ -1,10 +1,10 @@
 package consistenthash
 
-//Jump consistent hash also does a better job of splitting the keys evenly among the buckets,
-//and of splitting the rebalancing workload among the shards.
-//On the other hand, jump consistent hash does not support arbitrary server names,
-//but only returns a shard number; it is thus primarily suitable for the data storage case.
-//paper:https://arxiv.org/pdf/1406.2294.pdf
+// Jump consistent hash also does a better job of splitting the keys evenly among the buckets,
+// and of splitting the rebalancing workload among the shards.
+// On the other hand, jump consistent hash does not support arbitrary server names,
+// but only returns a shard number; it is thus primarily suitable for the data storage case.
+// paper:https://arxiv.org/pdf/1406.2294.pdf
 
 func JumpHash(key uint64, numBuckets int) int {
 	var b, j int64 = -1, 0

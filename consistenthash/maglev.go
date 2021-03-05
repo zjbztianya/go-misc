@@ -8,7 +8,8 @@ import (
 	"sort"
 )
 
-//Maglev consistent hashing algorithm paper:https://static.googleusercontent.com/media/research.google.com/zh-CN//pubs/archive/44824.pdf
+// Maglev consistent hashing algorithm
+// paper:https://static.googleusercontent.com/media/research.google.com/zh-CN//pubs/archive/44824.pdf
 type Maglev struct {
 	permutation map[string][]uint32
 	entry       []int
