@@ -1,5 +1,11 @@
 package metrics
 
+// Counter is metrics counter.
+type Counter interface {
+	Inc()
+	Add(delta float64)
+}
+
 // Gauge is metrics gauge.
 type Gauge interface {
 	Set(value float64)

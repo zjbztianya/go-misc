@@ -87,46 +87,12 @@ func TestSlidingWindowReduce(t *testing.T) {
 	assert.Equal(t, 10.0, result)
 }
 
-func TestSlidingWindowSum(t *testing.T) {
-	size := 3
-	interval := 50 * time.Millisecond
-	r := NewSlidingWindow(size, interval)
-	for i := 0; i < size; i++ {
-		r.Add(float64(i))
-		if i < size-1 {
-			time.Sleep(interval)
-		}
-	}
-	assert.Equal(t, 3.0, r.Sum())
-}
-
-func TestSlidingWindowCount(t *testing.T) {
-	size := 3
-	interval := 50 * time.Millisecond
-	r := NewSlidingWindow(size, interval)
-	for i := 0; i < 10; i++ {
-		r.Add(float64(i))
-		if i < 9 {
-			time.Sleep(interval)
-		}
-	}
-	assert.Equal(t, 3.0, r.Count())
-
-	r = NewSlidingWindow(size, interval)
-	for i := 0; i < 2; i++ {
-		r.Add(float64(i))
-		r.Add(float64(i + 1))
-		time.Sleep(interval)
-	}
-	assert.Equal(t, 4.0, r.Count())
-}
-
-func BenchmarkSlidingWindowIncrement(b *testing.B) {
+func BenchmarkSlidingWindowInc(b *testing.B) {
 	size := 3
 	interval := 100 * time.Millisecond
 	r := NewSlidingWindow(size, interval)
 	b.ResetTimer()
 	for i := 0; i < b.N; i++ {
-		r.Increment()
+		r.Inc()
 	}
 }

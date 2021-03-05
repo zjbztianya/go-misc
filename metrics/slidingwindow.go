@@ -1,7 +1,6 @@
 package metrics
 
 import (
-	"math"
 	"sync"
 	"time"
 )
@@ -36,7 +35,7 @@ func (r *SlidingWindow) timeSpan() int {
 	return int(time.Since(r.lastTime) / r.interval)
 }
 
-func (r *SlidingWindow) Increment() {
+func (r *SlidingWindow) Inc() {
 	r.Add(1)
 }
 
@@ -63,48 +62,8 @@ func (r *SlidingWindow) Reduce(fn func(b *Bucket)) {
 	}
 }
 
-func (r *SlidingWindow) Sum() float64 {
-	var v float64
-	r.Reduce(func(b *Bucket) {
-		v += b.Sum
-	})
-	return v
-}
-
-func (r *SlidingWindow) Max() float64 {
-	v := math.SmallestNonzeroFloat64
-	r.Reduce(func(b *Bucket) {
-		if v < b.Sum {
-			v = b.Sum
-		}
-	})
-	return v
-}
-
-func (r *SlidingWindow) Min() float64 {
-	v := math.MaxFloat64
-	r.Reduce(func(b *Bucket) {
-		if v > b.Sum {
-			v = b.Sum
-		}
-	})
-	return v
-}
-
-func (r *SlidingWindow) Avg() float64 {
-	var v float64
-	r.Reduce(func(b *Bucket) {
-		v += b.Sum
-	})
-	return v / float64(r.win.size)
-}
-
-func (r *SlidingWindow) Count() float64 {
-	var v int64
-	r.Reduce(func(b *Bucket) {
-		v += b.Count
-	})
-	return float64(v)
+func (r *SlidingWindow) Size() int {
+	return r.win.size
 }
 
 // window is acting as a circular array(ring buffer)
