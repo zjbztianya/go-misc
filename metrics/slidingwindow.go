@@ -1,4 +1,4 @@
-package slidingwindow
+package metrics
 
 import (
 	"math"
