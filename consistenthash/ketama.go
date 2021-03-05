@@ -1,10 +1,11 @@
 package consistenthash
 
 import (
-	"github.com/zjbztianya/go-misc/hashkit"
+	"errors"
 	"sort"
 	"strconv"
-	"sync"
+
+	"github.com/zjbztianya/go-misc/hashkit"
 )
 
 const (
@@ -19,7 +20,6 @@ type node struct {
 }
 
 type HashRing struct {
-	mu       sync.RWMutex
 	nodes    []node
 	replicas int
 	hashFunc hashkit.HashFunc32
@@ -52,9 +52,6 @@ func (h *HashRing) AddNode(key string, replicas int) {
 		replicas = h.replicas
 	}
 
-	h.mu.Lock()
-	defer h.mu.Unlock()
-
 	for i := 0; i < replicas; i++ {
 		hash := h.hashFunc([]byte(strconv.Itoa(i) + key))
 		h.nodes = append(h.nodes, node{
@@ -69,8 +66,6 @@ func (h *HashRing) AddNode(key string, replicas int) {
 }
 
 func (h *HashRing) RemoveNode(key string) {
-	h.mu.Lock()
-	defer h.mu.Unlock()
 
 	nodes := make([]node, len(h.nodes))
 	var n int
@@ -83,12 +78,9 @@ func (h *HashRing) RemoveNode(key string) {
 	h.nodes = nodes[:n]
 }
 
-func (h *HashRing) Get(key string) (string, bool) {
-	h.mu.RLock()
-	defer h.mu.RUnlock()
-
+func (h *HashRing) search(key string) (int, error) {
 	if len(h.nodes) == 0 {
-		return "", false
+		return -1, errors.New("empty ring")
 	}
 
 	hash := h.hashFunc([]byte(key))
@@ -96,5 +88,14 @@ func (h *HashRing) Get(key string) (string, bool) {
 		return h.nodes[i].hash >= hash
 	}) % len(h.nodes)
 
-	return h.nodes[idx].key, true
+	return idx, nil
+}
+
+func (h *HashRing) Get(key string) (string, error) {
+	idx, err := h.search(key)
+	if err != nil {
+		return "", err
+	}
+
+	return h.nodes[idx].key, nil
 }

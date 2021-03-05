@@ -1,9 +1,10 @@
 package consistenthash
 
 import (
-	"github.com/stretchr/testify/assert"
 	"strconv"
 	"testing"
+
+	"github.com/stretchr/testify/assert"
 )
 
 var (
@@ -46,8 +47,8 @@ func TestHashRingAddNode(t *testing.T) {
 
 	for i := 0; i < replicas; i++ {
 		key := strconv.Itoa(i) + nodes[0]
-		host, ok := ring.Get(key)
-		assert.True(t, ok)
+		host, err := ring.Get(key)
+		assert.Nil(t, err)
 		assert.Equal(t, nodes[0], host)
 	}
 
@@ -81,8 +82,8 @@ func TestHashRingRemoveNode(t *testing.T) {
 	ring.RemoveNode(nodes[0])
 	for i := 0; i < replicas; i++ {
 		key := strconv.Itoa(i) + nodes[0]
-		host, ok := ring.Get(key)
-		assert.True(t, ok)
+		host, err := ring.Get(key)
+		assert.Nil(t, err)
 		assert.NotEqual(t, nodes[0], host)
 	}
 	assert.Len(t, ring.nodes, replicas)
