@@ -3,4 +3,4 @@
 - [x] Ketama
 - [x] Jump
 - [x] Maglev
-- [ ] Bounded Loads
+- [x] Bounded Loads
