@@ -38,6 +38,5 @@ func (e *Exponential) Backoff(retries int) time.Duration {
 	if backoff < 0 {
 		backoff = 0
 	}
-
 	return time.Duration(backoff)
 }

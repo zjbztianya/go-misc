@@ -28,7 +28,6 @@ type SreBreaker struct {
 
 func NewSreBreaker(c *Config) *SreBreaker {
 	stats := metrics.NewSlidingCounter(c.numBuckets, c.interval)
-
 	return &SreBreaker{
 		k:         c.k,
 		threshold: c.threshold,
@@ -44,14 +43,12 @@ func (s *SreBreaker) summary() (float64, float64) {
 		total += b.Count
 		success += b.Sum
 	})
-
 	return float64(total), success
 }
 
 func (s *SreBreaker) getProb() float64 {
 	s.mu.Lock()
 	defer s.mu.Unlock()
-
 	return s.rand.Float64()
 }
 
@@ -65,7 +62,6 @@ func (s *SreBreaker) Allow() error {
 	if s.getProb() <= dropProb {
 		return errors.New("customer is out of quota")
 	}
-
 	return nil
 }
 

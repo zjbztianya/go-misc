@@ -62,7 +62,6 @@ func (m *Maglev) generatePermutation(node string) []uint32 {
 	for j := uint64(0); j < m.numBuckets; j++ {
 		permutation[j] = uint32((offset + j*skip) % m.numBuckets)
 	}
-
 	return permutation
 }
 
@@ -101,7 +100,6 @@ func (m *Maglev) AddNode(node string) error {
 	m.nodes = append(m.nodes[:idx], append([]string{node}, m.nodes[idx:]...)...)
 	m.permutation[node] = m.generatePermutation(node)
 	m.populate()
-
 	return nil
 }
 
@@ -113,7 +111,6 @@ func (m *Maglev) RemoveNode(node string) error {
 	m.nodes = append(m.nodes[:idx], m.nodes[idx+1:]...)
 	delete(m.permutation, node)
 	m.populate()
-
 	return nil
 }
 
@@ -121,6 +118,5 @@ func (m *Maglev) Lookup(key uint64) string {
 	if len(m.nodes) == 0 {
 		return ""
 	}
-
 	return m.nodes[m.entry[key%m.numBuckets]]
 }

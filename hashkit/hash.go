@@ -27,14 +27,12 @@ func Murmur64(data []byte) uint64 {
 func Fnv32(data []byte) uint32 {
 	f := fnv.New32()
 	f.Write(data)
-
 	return f.Sum32()
 }
 
 func Fnv64(data []byte) uint64 {
 	f := fnv.New64()
 	f.Write(data)
-
 	return f.Sum64()
 }
 

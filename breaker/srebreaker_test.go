@@ -14,7 +14,6 @@ func getSreBreaker() *SreBreaker {
 		numBuckets: 10,
 		interval:   100 * time.Millisecond,
 	}
-
 	return NewSreBreaker(&config)
 }
 

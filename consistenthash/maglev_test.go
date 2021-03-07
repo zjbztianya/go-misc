@@ -19,7 +19,6 @@ func genNodes(n int) []string {
 	for i := 0; i < n; i++ {
 		nodes[i] = "test" + strconv.Itoa(i) + ".github.com"
 	}
-
 	return nodes
 }
 

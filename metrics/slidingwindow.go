@@ -28,7 +28,6 @@ func NewSlidingWindow(size int, interval time.Duration, options ...WindowOption)
 	for _, opt := range options {
 		opt(w)
 	}
-
 	return w
 }
 
@@ -79,7 +78,6 @@ func newWindow(size int) *window {
 	for i := 0; i < size; i++ {
 		w.buckets[i] = new(Bucket)
 	}
-
 	return w
 }
 

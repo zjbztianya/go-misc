@@ -44,7 +44,6 @@ func NewHashRing(replicas int, opts ...HashRingOption) *HashRing {
 	if h.hashFunc == nil {
 		h.hashFunc = defaultHash
 	}
-
 	return h
 }
 
@@ -95,6 +94,5 @@ func (h *HashRing) Get(key string) (string, error) {
 	if err != nil {
 		return "", err
 	}
-
 	return h.nodes[idx].key, nil
 }

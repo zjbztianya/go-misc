@@ -63,7 +63,6 @@ func (b *BoundedLoadHashRing) Get(key string) (string, error) {
 			break
 		}
 	}
-
 	return b.nodes[pos].key, nil
 }
 
