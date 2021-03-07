@@ -28,6 +28,7 @@ func NewSlidingWindow(size int, interval time.Duration, options ...WindowOption)
 	for _, opt := range options {
 		opt(w)
 	}
+
 	return w
 }
 
@@ -69,7 +70,7 @@ func (r *SlidingWindow) Size() int {
 // window is acting as a circular array(ring buffer)
 type window struct {
 	buckets []*Bucket
-	size    int //bucket numbers
+	size    int // bucket numbers
 	offset  int
 }
 
@@ -78,6 +79,7 @@ func newWindow(size int) *window {
 	for i := 0; i < size; i++ {
 		w.buckets[i] = new(Bucket)
 	}
+
 	return w
 }
 

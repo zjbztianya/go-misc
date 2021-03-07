@@ -44,6 +44,7 @@ func (s *slidingCounter) Min() float64 {
 			v = b.Sum
 		}
 	})
+
 	return v
 }
 
@@ -54,6 +55,7 @@ func (s *slidingCounter) Max() float64 {
 			v = b.Sum
 		}
 	})
+
 	return v
 }
 
@@ -62,6 +64,7 @@ func (s *slidingCounter) Count() float64 {
 	s.Reduce(func(b *Bucket) {
 		v += b.Count
 	})
+
 	return float64(v)
 }
 
@@ -70,6 +73,7 @@ func (s *slidingCounter) Avg() float64 {
 	s.Reduce(func(b *Bucket) {
 		v += b.Sum
 	})
+
 	return v / float64(s.win.Size())
 }
 
@@ -78,5 +82,6 @@ func (s *slidingCounter) Sum() float64 {
 	s.Reduce(func(b *Bucket) {
 		v += b.Sum
 	})
+
 	return v
 }

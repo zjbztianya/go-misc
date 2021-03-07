@@ -11,7 +11,7 @@ import (
 // reference:https://medium.com/vimeo-engineering-blog/improving-load-balancing-with-a-new-consistent-hashing-algorithm-9f1bd75709ed
 type BoundedLoadHashRing struct {
 	*HashRing
-	factor    float64 //values between 1.25 and 2 are good for practical use
+	factor    float64 // values between 1.25 and 2 are good for practical use
 	loads     map[string]metrics.Gauge
 	totalLoad metrics.Gauge
 }
@@ -29,6 +29,7 @@ func (b *BoundedLoadHashRing) AddNode(key string) {
 	if _, ok := b.loads[key]; ok {
 		return
 	}
+
 	b.loads[key] = metrics.NewGauge()
 	b.HashRing.AddNode(key, b.replicas) // TODO:add weight
 }
@@ -62,6 +63,7 @@ func (b *BoundedLoadHashRing) Get(key string) (string, error) {
 			break
 		}
 	}
+
 	return b.nodes[pos].key, nil
 }
 

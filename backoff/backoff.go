@@ -24,7 +24,7 @@ func (e *Exponential) Backoff(retries int) time.Duration {
 	}
 
 	backoff, maxDelay := float64(e.BaseDelay), float64(e.MaxDelay)
-	//for loop performance better than math.Pow
+	// for loop performance better than math.Pow
 	for retries > 0 && backoff < maxDelay {
 		backoff *= e.Multiplier
 		retries--
@@ -34,9 +34,10 @@ func (e *Exponential) Backoff(retries int) time.Duration {
 	}
 
 	// backoff range:[backoff*(1-jitter),backoff*(1+jitter))
-	backoff = backoff * (1 + e.Jitter*(rand.Float64()*2-1))
+	backoff *= 1 + e.Jitter*(rand.Float64()*2-1)
 	if backoff < 0 {
 		backoff = 0
 	}
+
 	return time.Duration(backoff)
 }

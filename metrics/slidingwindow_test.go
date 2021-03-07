@@ -23,6 +23,7 @@ func TestSlidingWindowAdd(t *testing.T) {
 		r.Reduce(func(b *Bucket) {
 			buckets = append(buckets, b.Sum)
 		})
+
 		return buckets
 	}
 	assert.Equal(t, []float64{0, 0, 0}, listBuckets())
@@ -40,7 +41,6 @@ func TestSlidingWindowAdd(t *testing.T) {
 	r.Add(6)
 	r.Add(7)
 	assert.Equal(t, []float64{5, 9, 13}, listBuckets())
-
 }
 
 func TestSlidingWindowBucketTimeBoundary(t *testing.T) {
@@ -52,6 +52,7 @@ func TestSlidingWindowBucketTimeBoundary(t *testing.T) {
 		r.Reduce(func(b *Bucket) {
 			buckets = append(buckets, b.Sum)
 		})
+
 		return buckets
 	}
 	assert.Equal(t, []float64{0, 0, 0}, listBuckets())

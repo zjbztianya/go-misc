@@ -44,6 +44,7 @@ func NewHashRing(replicas int, opts ...HashRingOption) *HashRing {
 	if h.hashFunc == nil {
 		h.hashFunc = defaultHash
 	}
+
 	return h
 }
 
@@ -58,7 +59,6 @@ func (h *HashRing) AddNode(key string, replicas int) {
 			hash: hash,
 			key:  key,
 		})
-
 	}
 	sort.Slice(h.nodes, func(i, j int) bool {
 		return h.nodes[i].hash < h.nodes[j].hash
@@ -66,7 +66,6 @@ func (h *HashRing) AddNode(key string, replicas int) {
 }
 
 func (h *HashRing) RemoveNode(key string) {
-
 	nodes := make([]node, len(h.nodes))
 	var n int
 	for _, node := range h.nodes {

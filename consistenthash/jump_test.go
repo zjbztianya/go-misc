@@ -1,8 +1,9 @@
 package consistenthash
 
 import (
-	"github.com/stretchr/testify/assert"
 	"testing"
+
+	"github.com/stretchr/testify/assert"
 )
 
 func BenchmarkJumpHash(b *testing.B) {
@@ -21,7 +22,7 @@ func TestJumpHashMove(t *testing.T) {
 	buckets := make(map[int]int, bucketsNum)
 	for i := uint64(0); i < keySize; i++ {
 		b := JumpHash(i, bucketsNum)
-		buckets[b] = buckets[b] + 1
+		buckets[b]++
 	}
 	t.Log("buckets:", buckets)
 	bucketsNum = 12
@@ -29,8 +30,8 @@ func TestJumpHashMove(t *testing.T) {
 		oldBucket := JumpHash(i, bucketsNum-2)
 		newBucket := JumpHash(i, bucketsNum)
 		if oldBucket != newBucket {
-			buckets[oldBucket] = buckets[oldBucket] - 1
-			buckets[newBucket] = buckets[newBucket] + 1
+			buckets[oldBucket]--
+			buckets[newBucket]++
 		}
 	}
 	t.Log("buckets:", buckets)

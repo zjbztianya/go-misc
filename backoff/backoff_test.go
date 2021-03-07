@@ -12,6 +12,7 @@ func getExpBackoff() *Exponential {
 		Multiplier: 2,
 		Jitter:     0.2,
 	}
+
 	return &Exponential{cfg}
 }
 

@@ -45,15 +45,15 @@ func NewMaglev(nodes []string, numBuckets uint64, h1, h2 hashkit.HashFunc64) (*M
 	return m, nil
 }
 
-//generatePermutation guarantee permutation array to be a full permutation,proof as follows:
-//Suppose that permutation[] is not a full permutation of 0,1... ,m-1,
-//then there exists permutation[i] which is equal to permutation[j].
-//Then the following equations hold.
-//1.(offset + i * skip) % m == (offset + j * skip) % m
-//2.(i * skip) % m == (j * skip) % m
-//3.(i - j) * skip == x * m , assuming i > j and x >= 1 (congruence modulo)
-//4.(i - j ) * skip / x == m
-//Since 1 <= skip < m, 1 <= (i - j) < m, and m is a prime number, Equation 4 cannot hold.
+// generatePermutation guarantee permutation array to be a full permutation,proof as follows:
+// Suppose that permutation[] is not a full permutation of 0,1... ,m-1,
+// then there exists permutation[i] which is equal to permutation[j].
+// Then the following equations hold.
+// 1.(offset + i * skip) % m == (offset + j * skip) % m
+// 2.(i * skip) % m == (j * skip) % m
+// 3.(i - j) * skip == x * m , assuming i > j and x >= 1 (congruence modulo)
+// 4.(i - j ) * skip / x == m
+// Since 1 <= skip < m, 1 <= (i - j) < m, and m is a prime number, Equation 4 cannot hold.
 func (m *Maglev) generatePermutation(node string) []uint32 {
 	offset := m.h1([]byte(node)) % m.numBuckets
 	skip := m.h2([]byte(node))%(m.numBuckets-1) + 1
@@ -101,6 +101,7 @@ func (m *Maglev) AddNode(node string) error {
 	m.nodes = append(m.nodes[:idx], append([]string{node}, m.nodes[idx:]...)...)
 	m.permutation[node] = m.generatePermutation(node)
 	m.populate()
+
 	return nil
 }
 
@@ -112,6 +113,7 @@ func (m *Maglev) RemoveNode(node string) error {
 	m.nodes = append(m.nodes[:idx], m.nodes[idx+1:]...)
 	delete(m.permutation, node)
 	m.populate()
+
 	return nil
 }
 
@@ -119,5 +121,6 @@ func (m *Maglev) Lookup(key uint64) string {
 	if len(m.nodes) == 0 {
 		return ""
 	}
+
 	return m.nodes[m.entry[key%m.numBuckets]]
 }
