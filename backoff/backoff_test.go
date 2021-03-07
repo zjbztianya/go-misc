@@ -12,19 +12,19 @@ func getExpBackoff() *Exponential {
 		Multiplier: 2,
 		Jitter:     0.2,
 	}
-	return &Exponential{cfg: cfg}
+	return &Exponential{cfg}
 }
 
 func TestExponentialBackOff(t *testing.T) {
 	expBackoff := getExpBackoff()
 	for i := 0; i < 10; i++ {
-		t.Log(expBackoff.BackOff(i).Milliseconds())
+		t.Log(expBackoff.Backoff(i).Milliseconds())
 	}
 }
 
 func BenchmarkExponentialBackOff(b *testing.B) {
 	expBackoff := getExpBackoff()
 	for i := 0; i < b.N; i++ {
-		expBackoff.BackOff(i % 10)
+		expBackoff.Backoff(i % 10)
 	}
 }
