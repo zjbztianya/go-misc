@@ -15,18 +15,18 @@ type Config struct {
 // Exponential implements exponential backoff algorithm as defined in
 // https://aws.amazon.com/cn/blogs/architecture/exponential-backoff-and-jitter/
 type Exponential struct {
-	*Config
+	cfg *Config
 }
 
 func (e *Exponential) Backoff(retries int) time.Duration {
 	if retries == 0 {
-		return e.BaseDelay
+		return e.cfg.BaseDelay
 	}
 
-	backoff, maxDelay := float64(e.BaseDelay), float64(e.MaxDelay)
+	backoff, maxDelay := float64(e.cfg.BaseDelay), float64(e.cfg.MaxDelay)
 	// for loop performance better than math.Pow
 	for retries > 0 && backoff < maxDelay {
-		backoff *= e.Multiplier
+		backoff *= e.cfg.Multiplier
 		retries--
 	}
 	if backoff > maxDelay {
@@ -34,7 +34,7 @@ func (e *Exponential) Backoff(retries int) time.Duration {
 	}
 
 	// backoff range:[backoff*(1-jitter),backoff*(1+jitter))
-	backoff *= 1 + e.Jitter*(rand.Float64()*2-1)
+	backoff *= 1 + e.cfg.Jitter*(rand.Float64()*2-1)
 	if backoff < 0 {
 		backoff = 0
 	}
